@@ -1,0 +1,38 @@
+#input-form {
+    padding: 15px;
+    max-width: 270px;
+    overflow: visible;
+    position: auto;
+}
+
+#input-form input{
+    padding: 10px;
+    font-size: 1.2rem;
+    width: 250px;
+    border-style: none;
+    background-color: #ead9c0;
+    color: #fcfcfc;
+    overflow: visible;
+}
+
+::placeholder {
+    color:    rgb(237, 237, 223);
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+
+.webflow-style-input::after{
+    content: "";
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    right: 0px;
+    height: 2px;
+    background: linear-gradient(to right, #9f8763, #ead9c0, #FEFFB8, #ead9c0, #9f8763, #ead9c0);
+    background-size: 200% auto;
+    animation: gradient 3s linear infinite;
+    width: 300px;
+}

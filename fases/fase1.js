@@ -278,5 +278,3 @@ while (n < minhaLista.length) { //Fiz pra preencher o requisito
     console.log((n + 1) + minhaLista[n]);//console.log nas palavras do array
     n++;
 }
-
-

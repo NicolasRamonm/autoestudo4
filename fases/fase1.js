@@ -21,8 +21,16 @@ var plataforma17;
 var plataforma18;
 var plataforma19;
 var plataforma20;
+var plataforma21;
 var castelo;
-var overlapDetected = false
+var pontuacao = 0;
+var overlapDetected = false;
+var overlapDetectedStar = false;
+var overlapDetectedStar1 = false;
+var overlapDetectedStar2 = false;
+var star;
+var star1;
+var star2;
 
 class Fase1 extends Phaser.Scene {
 
@@ -41,9 +49,12 @@ class Fase1 extends Phaser.Scene {
                 this.load.spritesheet('run', 'assets/run.png', { frameWidth: 128, frameHeight: 128});
                 this.load.image('cloud1', 'assets/cloud1.png');
                 this.load.image('castelo', 'assets/castelo.png');
+                this.load.image('star', 'assets/star.png');
             }
     
             create() {
+                
+                
                 this.add.image(400, 1100, 'cenario').setScrollFactor(1); //adiciona o background
 
                 this.personagem = this.physics.add.sprite(larguraJogo/2, 2200, 'run').setScale(0.7).setSize(20,80).setOffset(50, 50) //sprite e fisica do personagem
@@ -51,6 +62,8 @@ class Fase1 extends Phaser.Scene {
                 this.personagem.setCollideWorldBounds(true); //personagem se limita a página
                 
                 this.cameras.main.startFollow(this.personagem, true) //camera segue o personagem
+
+
 
                 this.anims.create({ //cria animação de correr
                     key: 'run',
@@ -78,6 +91,8 @@ class Fase1 extends Phaser.Scene {
                 teclado = this.input.keyboard.createCursorKeys();
                 
                 //criarPlataforma(plataforma1, 200, 1950, 'cloud2') FUNÇÃO QUE NÃO FUNCIONA
+
+
 
 
                 //Posição da Nuvens, setadas como objetos com colisão com o 'personagem'
@@ -140,6 +155,9 @@ class Fase1 extends Phaser.Scene {
 
                 plataforma20 = this.physics.add.staticImage(700, 390, 'cloud1').setScale(0.8).setSize(150,80).setOffset(30, 30);
                 this.physics.add.collider(plataforma20, this.personagem);
+
+                plataforma21 = this.physics.add.staticImage(200, 200, 'cloud1').setScale(0.8).setSize(150,80).setOffset(30, 30).setVisible(false);
+                this.physics.add.collider(plataforma20, this.star, this.star2, this.star1);
                 
                 this.cameras.main.fadeIn(4000, 49, 46, 43);
 
@@ -147,13 +165,47 @@ class Fase1 extends Phaser.Scene {
                 this.physics.add.collider(plataforma20, castelo);
 
                 this.physics.add.overlap(this.personagem, castelo, function() { //detecta se o jogador entrou em
-                    overlapDetected = true;});                                  //contato com o castelo
+                    overlapDetected = true});                                  //contato com o castelo
+                
+                
+                //Os 3 blocos seguintes funcionam de mesma forma
+
+                //Bloco1    
+                this.star = this.physics.add.sprite(500, 1450, 'star').setScale(0.05);  //adiciona sprite da moeda
+                this.physics.add.collider(this.star, plataforma5);// colisão estrela/plataforma
+                this.star.setCollideWorldBounds(true); //moeda passa ter colisão com os limites da página
+                this.physics.add.overlap(this.personagem, this.star, function(){ //identificar overlap entre personagem e moeda
+                    overlapDetectedStar = true;//define overlap com verdadeiro
+                    pontuacao +=1;//aumenta pontuação
+                });
+
+                //Bloco2
+                this.star1 = this.physics.add.sprite(200, 899, 'star').setScale(0.05);  //adiciona sprite da moeda
+                this.physics.add.collider(this.star1, plataforma11);// colisão estrela/plataforma
+                this.star1.setCollideWorldBounds(true); //moeda passa ter colisão com os limites da página
+                this.physics.add.overlap(this.personagem, this.star1, function(){ //identificar overlap entre personagem e moeda
+                    overlapDetectedStar1 = true;
+                    pontuacao +=1;
+                });
+
+                //Bloco3
+                this.star2 = this.physics.add.sprite(460, 300, 'star').setScale(0.05);  //adiciona sprite da moeda
+                this.physics.add.collider(this.star2, plataforma19);// colisão estrela/plataforma
+                this.star2.setCollideWorldBounds(true); //moeda passa ter colisão com os limites da página
+                this.physics.add.overlap(this.personagem, this.star2, function(){ //identificar overlap entre personagem e moeda
+                    overlapDetectedStar2 = true;
+                    pontuacao +=1;
+                });
+
+                //Adiciona o primeiro Placar
+                this.placar = this.add.text(400, 1400, 'Estrelas:' + pontuacao+'/3', {fontSize:'45px', fill:'#495613'});
+
+            
             }
               
             
     
             update() { 
-
 
                 if (teclado.left.isDown) //se o direcional esquerdo pressionado
                 {
@@ -177,13 +229,37 @@ class Fase1 extends Phaser.Scene {
                     this.personagem.setVelocityY(-500);
                 }
 
+                // if (teclado.space.isDown) { //Space pressinado e fora de contato com o chão dá um salto
+                //     this.personagem.setVelocityY(-500);
+                // }
+
                 if (!this.personagem.body.onFloor()) {//animação do salto
                     this.personagem.anims.play('jump', true);
                 }
 
                 if(overlapDetected) {
-                    this.scene.start('Telainicial', this.game)//se o overlap for verdadeiro tela inicial é invocada
-                    this.personagem.setPosition(larguraJogo/2, 2200)
+                    this.scene.start('Telafinal'); //se o overlap for verdadeiro tela final é invocada
+                    this.personagem.setPosition(larguraJogo/2, 2200);
+                }
+
+                if(overlapDetectedStar) { //se o overlap da estrela for verdadeiro
+                    this.star.setVisible(false);// ela fica invisivel
+                    this.star.setPosition(200, 0);// colocada em uma posição distante do player
+                    this.placar.setText('Estrelas:' + pontuacao+'/3');
+                }
+
+                if(overlapDetectedStar1) {//se o overlap da estrela1 for verdadeiro
+                    this.star1.setVisible(false);// ela fica invisivel
+                    this.star1.setPosition(200, 0);// colocada em uma posição distante do player
+                    this.placar.setText('Estrelas:' + pontuacao+'/3');//placar é atualizado
+                    this.placar.setPosition(400, 830);// placar recolocado
+                }
+
+                if(overlapDetectedStar2) {//se o overlap da estrela2 for verdadeiro
+                    this.star2.setVisible(false)// ela fica invisivel
+                    this.star2.setPosition(200, 0);// reposicionada
+                    this.placar.setText('Estrelas:' + pontuacao+'/3')// placar atualizado
+                    this.placar.setPosition(400, 100)// recolocado
                 }
 
     }
@@ -195,5 +271,12 @@ function criarPlataforma(nome, eixoX, eixoY , nuvem){//ESSA FUNÇÃO NÃO FUNCIO
     this.physics.add.collider(nome, this.personagem);
 }
 
+let minhaLista = ["Não", "Tenho", "Ideia", "de Onde", "Enfiar um Array e um While"];
+let n = 0;
+
+while (n < minhaLista.length) { //Fiz pra preencher o requisito
+    console.log((n + 1) + minhaLista[n]);//console.log nas palavras do array
+    n++;
+}
 
 

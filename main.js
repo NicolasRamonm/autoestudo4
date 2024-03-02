@@ -13,7 +13,7 @@ window.onload = function()
         },
                 
         backgroundColor: '#312e2b',//fundo padrão
-        scene:[Telainicial, Fase1],//fases e menus
+        scene:[Telainicial, Fase1, Telafinal],//fases e menus
         parent: 'game',
         dom:{
         createContainer: true
@@ -23,7 +23,7 @@ window.onload = function()
         default: 'arcade',
         arcade: {
         gravity:{ y: 800},
-        debug: false
+        debug: true
         }}
         };
     game = new Phaser.Game(gameConfig);
@@ -31,10 +31,3 @@ window.onload = function()
     window.focus();
         
 }
-              
-    //Função para fazer com que qualquer botão alterne entre duas texturas se o mouse estiver em cima
-    function botaoHover(botao, textura1, textura2){
-        botao.on("pointerover", () => botao.setTexture(textura2));
-        botao.on("pointerout", () => botao.setTexture(textura1));
-    }
-

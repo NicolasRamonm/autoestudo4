@@ -10,6 +10,7 @@ class Telainicial extends Phaser.Scene {
         
         this.load.html("form", "form/form.html");
         this.load.image("play", "assets/jogar.png");
+        this.load.image("play2", "assets/jogar2.png");
         this.load.image('fundodeserto', 'assets/deserto.png');
         this.load.image('cloud1', 'assets/cloud1.png');
         this.load.image('cloud2', 'assets/cloud2.png');
@@ -19,6 +20,7 @@ class Telainicial extends Phaser.Scene {
         this.load.image('cloud7', 'assets/cloud7.png');
         this.load.image('cloud6', 'assets/cloud6.png');
         this.load.image('cloud8', 'assets/cloud8.png');
+        this.load.image('restart', 'assets/restart.png');
 
     }
 
@@ -26,8 +28,7 @@ class Telainicial extends Phaser.Scene {
 
         this.add.image(400, 1100, 'fundodeserto'); //background inicial
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.returnKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        this.nameFilled = false; //
+        this.nameFilled = false; 
 
         var text = { height: 20, padding: 15, content: 'BoringGame' } //Texto com nome do jogo
         this.message = this.add.text(
@@ -71,6 +72,8 @@ class Telainicial extends Phaser.Scene {
                 this.scene.start('Fase1', this.game);
             }}, this);
 
+        botaoHover(this.botaoJogar, 'play', 'play2') //função para botão mudar de cor
+
     }
 
     updateName(inputNameElement) { 
@@ -86,3 +89,10 @@ class Telainicial extends Phaser.Scene {
     update() {
     }
 }
+
+    //Função para fazer com que qualquer botão alterne entre duas texturas se o mouse estiver em cima
+    function botaoHover(botao, textura1, textura2){
+        botao.on("pointerover", () => botao.setTexture(textura2));
+        botao.on("pointerout", () => botao.setTexture(textura1));
+    }
+

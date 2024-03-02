@@ -41,7 +41,6 @@ class Fase1 extends Phaser.Scene {
     }
         
             preload() { //carrega os assets
-                this.load.image('alien1', 'assets/alien1.png');
                 this.load.image('cenario', 'assets/cenario2.png');
                 this.load.html("form", "form/form.html");
                 this.load.spritesheet('jump', 'assets/jump.png', { frameWidth: 128, frameHeight: 128});

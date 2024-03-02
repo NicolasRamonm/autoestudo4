@@ -23,7 +23,7 @@ window.onload = function()
         default: 'arcade',
         arcade: {
         gravity:{ y: 800},
-        debug: true
+        debug: false
         }}
         };
     game = new Phaser.Game(gameConfig);

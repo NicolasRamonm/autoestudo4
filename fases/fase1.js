@@ -40,16 +40,7 @@ class Fase1 extends Phaser.Scene {
         });
     }
         
-            preload() { //carrega os assets
-                this.load.image('cenario', 'assets/cenario2.png');
-                this.load.html("form", "form/form.html");
-                this.load.spritesheet('jump', 'assets/jump.png', { frameWidth: 128, frameHeight: 128});
-                this.load.spritesheet('idle', 'assets/idle.png', { frameWidth: 128, frameHeight: 128});
-                this.load.spritesheet('run', 'assets/run.png', { frameWidth: 128, frameHeight: 128});
-                this.load.image('cloud1', 'assets/cloud1.png');
-                this.load.image('castelo', 'assets/castelo.png');
-                this.load.image('star', 'assets/star.png');
-            }
+            preload() {}
     
             create() {
                 

@@ -57,21 +57,21 @@ class Fase1 extends Phaser.Scene {
 
                 this.anims.create({ //cria animação de correr
                     key: 'run',
-                    frames: this.anims.generateFrameNumbers('run', { start: 0, end:8}),
+                    frames: this.anims.generateFrameNumbers('run', { start: 0, end:7}),
                     frameRate: 10,
                     repeat: -1
                 });
 
                 this.anims.create({ //cria animação de parado
                     key: 'idle',
-                    frames: this.anims.generateFrameNumbers('idle', { start: 0, end:7}),
+                    frames: this.anims.generateFrameNumbers('idle', { start: 0, end:5}),
                     frameRate: 10,
                     repeat: -1
                 });
 
                 this.anims.create({ //cria animação de pulo
                     key: 'jump',
-                    frames: this.anims.generateFrameNumbers('jump', { start: 0, end:7}),
+                    frames: this.anims.generateFrameNumbers('jump', { start: 0, end:9}),
                     frameRate: 10,
                     repeat: -1
                 });
